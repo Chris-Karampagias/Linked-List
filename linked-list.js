@@ -13,7 +13,19 @@ class LinkedList {
     this.length = 1;
   }
 
-  push(value) {
+  size() {
+    return this.length;
+  }
+
+  head() {
+    return this.head;
+  }
+
+  tail() {
+    return this.tail;
+  }
+
+  append(value) {
     const newNode = new Node(value);
     if (!this.head) {
       this.head = newNode;
@@ -46,7 +58,7 @@ class LinkedList {
     return temp;
   }
 
-  unshift(value) {
+  prepend(value) {
     const newNode = new Node(value);
     if (!this.head) {
       this.head = newNode;
@@ -72,7 +84,7 @@ class LinkedList {
     return temp;
   }
 
-  get(index) {
+  at(index) {
     if (index >= this.length || index < 0) {
       return undefined;
     }
@@ -83,8 +95,35 @@ class LinkedList {
     return temp;
   }
 
+  contains(value) {
+    if (!this.head) {
+      return null;
+    }
+    let temp = this.head;
+    while (temp.next) {
+      if (temp.value == value) {
+        return true;
+      }
+      temp = temp.next;
+    }
+    return null;
+  }
+
+  find(value) {
+    if (!this.head || !this.contains(value)) {
+      return null;
+    }
+    let temp = this.head;
+    for (let i = 0; i < this.length; i++) {
+      if (temp.value == value) {
+        return i;
+      }
+      temp = temp.next;
+    }
+  }
+
   set(index, value) {
-    let temp = this.get(index);
+    let temp = this.at(index);
     if (temp) {
       temp.value = value;
       return true;
@@ -92,7 +131,7 @@ class LinkedList {
     return false;
   }
 
-  insert(index, value) {
+  insertAt(index, value) {
     if (index < 0 || index >= this.length) {
       return false;
     } else if (index == 0) {
@@ -111,13 +150,13 @@ class LinkedList {
     return true;
   }
 
-  remove(index) {
+  removeAt(index) {
     if (index === 0) {
       return this.shift();
     } else if (index === this.length - 1) {
       return this.pop();
     }
-    let before = this.get(index - 1);
+    let before = this.at(index - 1);
     if (before) {
       let temp = before.next;
       before.next = temp.next;
@@ -126,5 +165,19 @@ class LinkedList {
       return temp;
     }
     return false;
+  }
+
+  toString() {
+    if (!this.head) {
+      console.log(null);
+      return;
+    }
+    let temp = this.head;
+    for (let i = 0; i < this.length; i++) {
+      console.log(temp.value);
+      temp = temp.next;
+    }
+    console.log("null");
+    return;
   }
 }
